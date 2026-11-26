@@ -4,6 +4,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { join } from 'path';
 import * as express from 'express';
+import type { NextFunction, Request, Response } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -11,7 +12,7 @@ async function bootstrap() {
   app.enableCors({
     origin: 'http://localhost:9000',
   });
-  app.use('/uploads', (_req, res, next) => {
+  app.use('/uploads', (_req: Request, res: Response, next: NextFunction) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('Cache-Control', 'public, max-age=86400');
     next();
@@ -36,4 +37,7 @@ async function bootstrap() {
   await app.listen(process.env.PORT ?? 3000);
 }
 
-bootstrap();
+bootstrap().catch((error: unknown) => {
+  console.error('Não foi possível iniciar a aplicação.', error);
+  process.exitCode = 1;
+});

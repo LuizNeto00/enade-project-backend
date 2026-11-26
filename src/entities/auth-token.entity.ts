@@ -35,7 +35,10 @@ export class AuthToken {
   @UpdateDateColumn({ type: 'datetime', name: 'updated_at' })
   updated_at: Date;
 
-  @ManyToOne(() => User, (user) => user.tokens, { onDelete: 'CASCADE', nullable: false })
+  @ManyToOne(() => User, (user) => user.tokens, {
+    onDelete: 'CASCADE',
+    nullable: false,
+  })
   @JoinColumn({ name: 'user_id' })
   user: User;
 }

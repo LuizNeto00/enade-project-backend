@@ -1,4 +1,10 @@
-import { MigrationInterface, QueryRunner, Table, TableForeignKey, TableIndex } from 'typeorm';
+import {
+  MigrationInterface,
+  QueryRunner,
+  Table,
+  TableForeignKey,
+  TableIndex,
+} from 'typeorm';
 
 export class CreatePersonalAccessTokensTable1710000000002 implements MigrationInterface {
   name = 'CreatePersonalAccessTokensTable1710000000002';

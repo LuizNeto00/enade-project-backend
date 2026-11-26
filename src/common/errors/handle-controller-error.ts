@@ -14,7 +14,9 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 function isStringArray(value: unknown): value is string[] {
-  return Array.isArray(value) && value.every((item) => typeof item === 'string');
+  return (
+    Array.isArray(value) && value.every((item) => typeof item === 'string')
+  );
 }
 
 function getErrorType(statusCode: number): string {
@@ -138,7 +140,8 @@ export function handleControllerError(error: unknown, context: string): never {
     throw new HttpException(details, details.statusCode);
   }
 
-  const internalError = error instanceof Error ? error : new Error(String(error));
+  const internalError =
+    error instanceof Error ? error : new Error(String(error));
   const safeMessage = redactSensitiveText(internalError.message);
   const safeStack = internalError.stack
     ? redactSensitiveText(internalError.stack)
@@ -150,13 +153,7 @@ export function handleControllerError(error: unknown, context: string): never {
   };
 
   logger.error(safeMessage, safeStack, context);
-  appendErrorLog(
-    'error',
-    context,
-    details.statusCode,
-    safeMessage,
-    safeStack,
-  );
+  appendErrorLog('error', context, details.statusCode, safeMessage, safeStack);
 
   throw new HttpException(details, details.statusCode);
 }
